@@ -1,0 +1,167 @@
+openapi: 3.0.4
+info:
+  title: Geo-fence API
+  description: This API is used for managing Geo-fenced locations
+  version: 0.1.0
+  contact:
+    email: liam.david.forde@ericsson.com
+servers:
+  - url: https://cat.ericsson.net/
+    description: |-
+      Production Environment
+paths:
+  /location:
+    post:
+      tags:
+        - Geo-fenced Locations
+      summary: To create a new Geo-fenced Locations
+      requestBody:
+        description: GeoJSON Geometry for locations
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Geo-fence'
+            examples:
+              request:
+                value:
+                  type: "Feature"
+                  properties:
+                    name: "ASP Warehouse 1"
+                  geometry:
+                    type: "Polygon"
+                    coordinates:
+                      -
+                        -
+                          - 17.0068359375
+                          - 60.174306261926034
+                        -
+                          - 16.611328125
+                          - 59.77852198502987
+                        -
+                          - 17.402343749999996
+                          - 59.60109549032134
+                        -
+                          - 17.0068359375
+                          - 60.174306261926034
+      responses:
+        201:
+          description: The Location has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Geo-fence'
+        400:
+          description: Request is missing required information or is a duplicate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        401:
+          description: Authentication information is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        403:
+          description: Not authorized to create Asset Types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        500:
+          description: The server encountered an unexpected condition which prevented it from fulfilling the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+      security:
+        - oAuth:
+            - clientCredentials
+components:
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://cat.ericsson.net/auth/oauth/v2/token
+          refreshUrl: https://cat.ericsson.net/auth/oauth/v2/refreshToken
+  schemas:
+    Geo-fence:
+      title: Geo-fenced Location
+      type: object
+      required:
+        - name
+      properties:
+        type:
+          type: string
+          description: "Must be the GeoJSON enumerated value of Feature"
+          example: "Feature"
+        properties:
+          type: object
+          description: "The list of properties associated with this Geo-Fence"
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: The id of the geo-fence given by the system upon creation.
+            enterpriseId:
+              type: string
+              description: "The id of the enterprise that created the location. This is populated by the system upon creation"
+              format: "uuid"
+            name:
+              type: string
+              description: "The name of the Geo-Fenced location"
+              example: "ASP Warehouse 1"
+            createdAt:
+              type: string
+              description: "The UTC date time stamp when the Location was created. This is populated by the system upon creation"
+              format: date-time
+            createdBy:
+              type: string
+              description: "The user id who created the Location. This is populated by the system upon creation"
+            updatedAt:
+              type: string
+              description: "The UTC date time stamp when the Location was created. This is populated by the system upon update"
+              format: date-time
+            updatedBy:
+              type: string
+              description: "The user id who updated the Location. This is populated by the system upon update"
+        geometry:
+          type: object
+          description: "The geometry of the geo-fence"
+          properties:
+            type:
+              type: string
+              description: "Must be the GeoJSON enumerated value of Polygon"
+              example: "Polygon"
+            coordinates:
+              type: array
+              description: "An array of linear rings. Note only one linear ring is supported."
+              items:
+                type: array
+                description: An array of positions making a linear ring. Note first and last position must be the same.
+                items:
+                  type: array
+                  description: An array of numbers making a position - longitude, latitude and optionally altitude.
+                  items:
+                    type: number
+                  minItems: 2
+                  maxItems: 3
+                minItems: 3
+              minItems: 1
+              maxItems: 1
+    ResponseModel:
+      title: Response Model
+      type: object
+      required:
+        - traceID
+        - responseStatusCode
+        - responseMessage
+      properties:
+        traceID:
+          type: string
+        responseStatusCode:
+          type: string
+        responseMessage:
+          type: string

@@ -1,0 +1,149 @@
+POST http://127.0.0.1:8186/enterprise
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic cat password
+
+< ./finnair-enterprise.json
+
+###
+
+POST http://127.0.0.1:8080/enterprise/5f631dded38f3d1399cc60c8/locations
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic cat password
+
+< ./sandvik-group-locatioons/03-port-of-hamburg.json
+
+###
+
+GET http://localhost:8080/enterprise/
+Accept: application/json
+Authorization: Basic cat password
+
+###
+
+#GET http://localhost:8080/enterprise/5f3cb715804d001c9eaa6845
+GET http://localhost:8186/enterprise/613b258e75039d1a5aef2a08
+Accept: application/json
+Authorization: Basic cat password
+
+###
+
+POST http://127.0.0.1:8186/assetType
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "name": "Containers",
+    "description": "Containers Type",
+    "enterpriseId": "613b258e75039d1a5aef2a08"
+}
+
+###
+
+GET http://127.0.0.1:8186/generateId
+Accept: text/plain
+
+> ../extract-device-id.js
+
+<> 2020-06-26T103205.200.txt
+
+###
+
+POST http://127.0.0.1:8186/asset/613b258e75039d1a5aef2a08
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "name": "Container 1",
+    "deviceId": "{{deviceId}}",
+    "assetTypeId": "613b25d975039d1a5aef2a09"
+}
+
+<> 2020-06-26T103226.200.json
+
+###
+
+GET http://127.0.0.1:8186/asset
+Accept: application/json
+Authorization: Basic cat password
+
+<> 2020-06-26T052115.200.json
+<> 2020-06-26T052058.200.json
+<> 2020-06-26T052037.200.json
+<> 2020-06-26T103321.200.json
+<> 2020-06-26T103231.200.json
+<> 2020-06-26T103153.200.json
+
+###
+
+GET http://127.0.0.1:8080/asset/5f631dded38f3d1399cc60c8
+Accept: application/json
+Authorization: Basic cat password
+
+<> 2020-06-26T103356.200.json
+<> 2020-06-26T103312.200.json
+
+###
+
+POST http://127.0.0.1:8080/position/5efef20b29b35e346bd2ccb4
+Accept: text/plain
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "position": {
+        "type": "Point",
+        "coordinates": [
+            151.1053,
+            -33.7079
+        ]
+    },
+    "properties": {
+        "status": "Started Moving..."
+    }
+}
+
+###
+POST http://127.0.0.1:8080/demo/finishLeg2/5f631dded38f3d1399cc60c8/5f63897ef89b596abff11a3b
+Accept: text/plain
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "points": [
+        [9.914562007849469,53.51083814201067] ,
+        [9.94118815879824,53.49539586534161]
+    ]
+}
+
+
+###
+
+GET https://api.mapbox.com/directions/v5/mapbox/walking/17.95384673483133,59.40426938982145;17.956834001406207,59.4041712961623?geometries=geojson&overview=full&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+###
+
+GET https://api.mapbox.com/directions/v5/mapbox/driving/17.9536,59.4043;17.9573,59.4043?geometries=geojson&overview=full&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET https://api.mapbox.com/directions/v5/mapbox/driving/17.9462,17.9423;59.4043,17.9573?geometries=geojson&overview=full&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET https://api.mapbox.com/directions/v5/mapbox/driving/150.7947,-34.0861;151.1410,-33.9492;151.0802,-33.6087?geometries=geojson&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET https://api.mapbox.com/directions/v5/mapbox/cycling/150.7947,-34.0861;151.1410,-33.9492;151.0802,-33.6087?geometries=geojson&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET https://api.mapbox.com/directions/v5/mapbox/driving/150.7881,-33.7963;150.9813,-34.0168?steps=true&geometries=geojson&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET https://api.mapbox.com/matching/v5/mapbox/driving/151.24144,-33.915974;151.24202,-33.913189;151.236481,-33.912075;151.233536,-33.907726;151.222839,-33.901611;151.218964,-33.886673;151.218018,-33.88488;151.216949,-33.88015;151.217239,-33.875969;151.21666,-33.87442;151.203934,-33.872894;151.202316,-33.874004;151.196014,-33.874966;151.19223,-33.871181;151.179291,-33.868137;151.176361,-33.869034;151.174637,-33.866528;151.162094,-33.859428;151.144897,-33.839371;151.136215,-33.840118;151.128387,-33.836132;151.125381,-33.824791;151.111832,-33.816757;151.103928,-33.816082;151.103821,-33.81604;151.101807,-33.817585;151.091995,-33.825809;151.08989,-33.825409;151.090057,-33.82436;151.088776,-33.824123;151.08815,-33.824005;151.087906,-33.824852;151.086517,-33.824436;151.086441,-33.824409;151.087906,-33.824852;151.086609,-33.831219;151.086044,-33.831169;151.083633,-33.836586;151.083588,-33.837654;151.083649,-33.8377;151.081421,-33.850121;151.077652,-33.853844;151.070297,-33.857311;151.064133,-33.868374;151.069199,-33.881516;151.069702,-33.883873;151.069763,-33.884682;151.069443,-33.885654;151.069122,-33.886024;151.062164,-33.887924;151.049988,-33.896893;151.041153,-33.905441;151.040253,-33.906258;151.042282,-33.913528;151.038132,-33.924892;151.038757,-33.928505;151.035736,-33.940002;151.030243,-33.940056;151.02066,-33.94112;151.007767,-33.939701;150.99794,-33.943611;150.989227,-33.943642;150.965439,-33.947483;150.952911,-33.945824;150.943527,-33.942295;150.917725,-33.938953;150.91423,-33.938763;150.913208,-33.9389;150.910339,-33.944958;150.899094,-33.953743;150.895493,-33.953152;150.895248,-33.953121;150.893723,-33.952919?steps=true&geometries=geojson&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET https://api.mapbox.com/directions/v5/mapbox/walking/59.4024,17.9515;59.4043,17.9573?geometries=geojson&overview=full&access_token=pk.eyJ1IjoiYmlkYWRoIiwiYSI6ImNqZDM1d3BkdTJwcnMyd24yZWo0OXNpMzEifQ.W2j2FzHYl5gvq3bbSaryzQ
+
+###
+GET http://router.project-osrm.org/route/v1/driving/150.7947,-34.0861;151.1410,-33.9492;151.0802,-33.6087

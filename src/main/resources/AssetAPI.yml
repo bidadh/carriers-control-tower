@@ -1,0 +1,277 @@
+openapi: 3.0.4
+info:
+  title: Asset API
+  description: This API is used for managing Enterprise Assets
+  version: 0.1.0
+  contact:
+    email: liam.david.forde@ericsson.com
+servers:
+  - url: https://cat.ericsson.net/
+    description: |-
+      Production Environment
+paths:
+  /assetType:
+    post:
+      tags:
+        - Asset Types
+      summary: To create a new Asset Type
+      requestBody:
+        description: Asset Type
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetType'
+            examples:
+              request:
+                value:
+                  name: "Handling Unit"
+                  description: "A Handling Unit is a pallet or box that is transported"
+      responses:
+        201:
+          description: The Asset Type has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetType'
+        400:
+          description: Request is missing required information or is a duplicate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        401:
+          description: Authentication information is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        403:
+          description: Not authorized to create Asset Types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        500:
+          description: The server encountered an unexpected condition which prevented it from fulfilling the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+      security:
+        - oAuth:
+            - clientCredentials
+  /asset:
+    post:
+      tags:
+        - Asset
+      summary: To create a new Asset
+      requestBody:
+        description: Asset
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asset'
+            examples:
+              request:
+                value:
+                  name: "Box-123"
+                  assetTypeId: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      responses:
+        201:
+          description: The Asset Type has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        400:
+          description: Request is missing required information or is a duplicate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        401:
+          description: Authentication information is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        403:
+          description: Not authorized to create Asset Types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        500:
+          description: The server encountered an unexpected condition which prevented it from fulfilling the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+      security:
+        - oAuth:
+            - clientCredentials
+  /asset/{id}:
+    patch:
+      tags:
+        - Asset
+      summary: To pair or unpair an asset with a device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The Id of the Asset
+      requestBody:
+        description: Asset
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceId:
+                  type: string
+                  description: The Id of the Device. Can also be an empty string indicating the asset is unpaired with device.
+      responses:
+        200:
+          description: The Asset Type has been successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        400:
+          description: Request is missing required information or is a duplicate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        401:
+          description: Authentication information is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        403:
+          description: Not authorized to create Asset Types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        404:
+          description: The asset does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+        500:
+          description: The server encountered an unexpected condition which prevented it from fulfilling the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseModel'
+      security:
+        - oAuth:
+            - clientCredentials
+components:
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://cat.ericsson.net/auth/oauth/v2/token
+          refreshUrl: https://cat.ericsson.net/auth/oauth/v2/refreshToken
+  schemas:
+    AssetType:
+      title: Asset Type
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: "The id of the Asset Type which is generated when created"
+          format: "uuid"
+        enterpriseId:
+          type: string
+          description: "The id of the enterprise that created the Asset Type. This is populated by the system upon creation"
+          format: "uuid"
+        name:
+          type: string
+          description: "The name of the Asset Type"
+          example: "Handling Unit"
+        description:
+          type: string
+          description: "The description of the Asset Type"
+          example: "A Handling Unit is a pallet or box that is transported"
+        createdAt:
+          type: string
+          description: "The UTC date time stamp when the Asset Type was created. This is populated by the system upon creation"
+          format: date-time
+        createdBy:
+          type: string
+          description: "The user id who created the Asset Type. This is populated by the system upon creation"
+        updatedAt:
+          type: string
+          description: "The UTC date time stamp when the Asset Type was created. This is populated by the system upon update"
+          format: date-time
+        updatedBy:
+          type: string
+          description: "The user id who updated the Asset Type. This is populated by the system upon update"
+    Asset:
+      title: Asset
+      type: object
+      required:
+        - name
+        - assetTypeId
+      properties:
+        id:
+          type: string
+          description: "The id of the Asset which is generated when created"
+          format: "uuid"
+        enterpriseId:
+          type: string
+          description: "The id of the enterprise that created the Asset. This is populated by the system upon creation"
+          format: "uuid"
+        name:
+          type: string
+          description: "The name of the Asset"
+          example: "Box-123"
+        assetTypeId:
+          type: string
+          description: "The Asset Type Id this asset is a type of."
+          format: "uuid"
+        deviceId:
+          type: string
+          description: "The device Id this asset is paired with. This is the Id that device sensor readings are recorded against."
+        createdAt:
+          type: string
+          description: "The UTC date time stamp when the Asset Type was created. This is populated by the system upon creation"
+          format: date-time
+        createdBy:
+          type: string
+          description: "The user id who created the Asset Type. This is populated by the system upon creation"
+        updatedAt:
+          type: string
+          description: "The UTC date time stamp when the Asset Type was created. This is populated by the system upon update"
+          format: date-time
+        updatedBy:
+          type: string
+          description: "The user id who updated the Asset Type. This is populated by the system upon update"
+    ResponseModel:
+      title: Response Model
+      type: object
+      required:
+        - traceID
+        - responseStatusCode
+        - responseMessage
+      properties:
+        traceID:
+          type: string
+        responseStatusCode:
+          type: string
+        responseMessage:
+          type: string

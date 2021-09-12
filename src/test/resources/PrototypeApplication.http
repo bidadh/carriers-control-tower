@@ -1,0 +1,193 @@
+GET http://127.0.0.1:8080/v3/api-docs
+Accept: application/json
+
+<> 2020-06-19T045218.200.json
+<> 2020-06-19T045032.200.json
+
+###
+
+GET http://127.0.0.1:8080/actuator
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2020-06-19T045023.200.json
+
+###
+
+GET http://127.0.0.1:8080/v3/api-docs/swagger-config
+Accept: application/json
+
+<> 2020-06-19T045228.200.json
+
+###
+
+GET http://127.0.0.1:8080/swagger-ui.html
+
+<> 2020-06-22T011001.200.html
+<> 2020-06-19T045333.200.html
+
+###
+
+GET http://127.0.0.1:8080/v3/api-docs.yaml
+Accept: application/vnd.oai.openapi
+
+<> 2020-06-22T010940.200.txt
+<> 2020-06-19T045222.200.txt
+
+###
+
+GET http://127.0.0.1:8080/coffees
+
+###
+
+GET http://127.0.0.1:8080/employees
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8080/actuator/info
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2020-06-22T010332.200.json
+
+###
+
+GET http://127.0.0.1:8080/actuator/env
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2020-06-22T010341.200.json
+
+###
+
+GET http://127.0.0.1:8080/asset/
+
+###
+
+GET http://127.0.0.1:8080/v3/api-docs.yaml/coffees
+Authorization: Basic cat password
+Accept: application/vnd.oai.openapi
+
+###
+
+GET http://127.0.0.1:8080/asset
+Authorization: Basic cat password
+
+<> 2020-06-29T083937.200.json
+<> 2020-06-29T063229.200.json
+
+###
+
+POST http://127.0.0.1:8080/asset
+Authorization: Basic cat password
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Test SSE 51"
+}
+
+###
+
+POST http://127.0.0.1:8080/asset/create
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "name": "Test SSE 59"
+}
+
+###
+
+GET http://127.0.0.1:8080/enterprise/zones
+Authorization: Basic cat password
+Accept: application/json
+
+<> 2020-06-29T074243.200.json
+<> 2020-06-29T062644.200.json
+
+###
+
+GET http://127.0.0.1:8080/asset/moving
+Authorization: Basic cat password
+Accept: application/json
+
+<> 2020-07-02T125843.200.json
+
+###
+
+
+POST http://127.0.0.1:8080/enterprise/5efc9959384745552fb9566c/locations
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "name": "New Location",
+    "properties": {
+        "type": "New Office"
+    },
+    "polygon": {
+        "type": "Polygon",
+        "coordinates": [[
+            [150.9756, -33.4461],
+            [150.7773, -33.4281],
+            [150.6907, -33.6073],
+            [150.9756, -33.4461]
+        ]]
+    }
+}
+
+<> 2020-07-03T044531.200.json
+<> 2020-07-03T035207.200.json
+
+###
+
+POST http://127.0.0.1:8080/enterprise
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic cat password
+
+{
+    "name": "Ericsson",
+    "locations": [
+        {
+            "name": "Warehouse",
+            "polygon": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [151.0512, -33.6227],
+                    [151.2960, -33.6739],
+                    [151.2083, -33.8433],
+                    [151.0779, -33.7789],
+                    [150.9451, -33.6805],
+                    [151.0512, -33.6227]
+                ]]
+            }
+        },
+        {
+            "name": "Head Office",
+            "properties": {
+                "type": "Office"
+            },
+            "polygon": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [151.1524, -34.0497],
+                    [151.0033, -34.0813],
+                    [150.8113, -34.0677],
+                    [150.8967, -33.9482],
+                    [151.2423, -33.9126],
+                    [151.1524, -34.0497]
+                ]]
+            }
+        }
+    ]
+}
+
+###
+
+
+POST http://127.0.0.1:8080/actuator/loggers/com.hookiesolutions.cat.subscription.web
+Content-Type: application/vnd.spring-boot.actuator.v3+json
+
+###
+

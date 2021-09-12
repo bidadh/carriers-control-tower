@@ -1,0 +1,44 @@
+server:
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+spring:
+  codec:
+    max-in-memory-size: 20MB
+  lifecycle:
+    timeout-per-shutdown-phase: 3
+  security:
+    user:
+      name: cat
+      password: password
+  web:
+    resources:
+      cache:
+        period: 31536000
+        cachecontrol:
+          max-age: 31536000
+      chain:
+        enabled: true
+        strategy:
+          content:
+            enabled: true
+            paths: /webjars/swagger-ui/**.*
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+logging:
+  level:
+    com.hookiesolutions.cat.subscription.web: DEBUG
+    com.hookiesolutions.cat.subscription.config: DEBUG
+    org.springframework.data: DEBUG
+
