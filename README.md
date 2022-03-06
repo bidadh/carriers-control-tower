@@ -1,4 +1,5 @@
-#Run app with finnair and ospentos profiles
+#IATA OneRecord Hackathon 2021
+##Run app with finnair and ospentos profiles
 
 `./mvnw clean package`
 
